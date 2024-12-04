@@ -1,8 +1,8 @@
-package frontend.controller;
+package interface_adapter.chatbot;
 
-import backend.service.ChatbotService;
-import frontend.model.ChatbotSession;
-import frontend.view.panels.ChatbotPanel;
+import use_case.chatbot.ChatbotService;
+import entity.ChatbotSession;
+import view.ChatbotPanel;
 
 /**
  * Controller for handling chatbot interactions.

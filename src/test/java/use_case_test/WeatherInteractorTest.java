@@ -6,8 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import frontend.controller.WeatherController;
-import use_case.WeatherInteractor;
+import interface_adapter.weathersearch.WeatherController;
+import use_case.weathersearch.WeatherInteractor;
+
+import java.util.List;
 
 public class WeatherInteractorTest {
 
@@ -19,7 +21,7 @@ public class WeatherInteractorTest {
         // Create a WeatherController (not mocked)
         weatherController = new WeatherController();
         // Create the WeatherInteractor with the controller
-        weatherInteractor = new WeatherInteractor(weatherController);
+        weatherInteractor = new WeatherInteractor();
     }
 
     @Test
@@ -28,7 +30,7 @@ public class WeatherInteractorTest {
         final String location = "Toronto";
         
         // Call the method under test
-        final String actualWeather = weatherInteractor.fetchWeatherForLocation(location);
+        final List<String> actualWeather = weatherInteractor.getWeatherWithForecast(location);
 
         // Verify the result is not null (assuming a real API call or pre-defined data is used)
         assertNotNull(actualWeather);
@@ -41,7 +43,7 @@ public class WeatherInteractorTest {
 
         // Expect an IllegalArgumentException when calling the method with an empty location
         assertThrows(IllegalArgumentException.class, () -> {
-            weatherInteractor.fetchWeatherForLocation(location);
+            weatherInteractor.getWeatherWithForecast(location);
         });
     }
 
@@ -52,7 +54,7 @@ public class WeatherInteractorTest {
 
         // Expect an IllegalArgumentException when calling the method with a null location
         assertThrows(IllegalArgumentException.class, () -> {
-            weatherInteractor.fetchWeatherForLocation(location);
+            weatherInteractor.getWeatherWithForecast(location);
         });
     }
 }

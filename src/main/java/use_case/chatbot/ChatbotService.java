@@ -1,4 +1,4 @@
-package backend.service;
+package use_case.chatbot;
 
 import java.io.IOException;
 import java.net.URI;
@@ -71,7 +71,7 @@ public class ChatbotService {
                 {
                     "model": "gpt-4o-mini",
                     "messages": [
-                        {"role": "system", "content": "You are a hiking and activity assistant."},
+                        {"role": "system", "content": "You are a hiking and activity assistant. Note that the season is winters"},
                         {"role": "user", "content": "%s"}
                     ]
                 }

@@ -1,4 +1,4 @@
-package frontend.utils;
+package helpers;
 
 /**
  * This class is to capitalize location name, if they aren't already.

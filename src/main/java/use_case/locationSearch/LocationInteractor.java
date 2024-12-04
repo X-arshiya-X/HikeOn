@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import entity.GeoLocation;
 import entity.HikingSpot;
-import frontend.utils.HttpClient;
+import helpers.HttpClient;
 import io.github.cdimascio.dotenv.Dotenv;
 
 /**

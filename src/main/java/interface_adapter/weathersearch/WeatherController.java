@@ -1,25 +1,20 @@
-package frontend.controller;
+package interface_adapter.weathersearch;
+
+import use_case.weathersearch.WeatherInteractor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import backend.service.WeatherService;
-import entity.Weather;
-
 /**
  * Controller for handling weather-related requests.
  */
 public class WeatherController {
-    private WeatherService weatherService;
+    private final WeatherInteractor weatherService;
 
     public WeatherController() {
-        this.weatherService = new WeatherService();
-    }
-
-    public WeatherController(WeatherService weatherService) {
-        this.weatherService = weatherService;
+        this.weatherService = new WeatherInteractor();
     }
 
     /**
@@ -31,14 +26,14 @@ public class WeatherController {
         final String result;
         if (location == null || location.trim().isEmpty()) {
             result = "Location cannot be empty!";
-        } 
+        }
         else {
             // Fetch current weather and forecast data
-            final Weather currentWeather = weatherService.getWeather(location);
-            final List<Weather> forecast = weatherService.getWeatherWithForecast(location);
+            final String currentWeather = weatherService.getWeather(location);
+            final List<String> rawForecasts = weatherService.getWeatherWithForecast(location);
 
             // Format the data
-            result = formatWeather(currentWeather, forecast);
+            result = formatWeather(currentWeather, rawForecasts);
         }
         return result;
     }
@@ -46,24 +41,31 @@ public class WeatherController {
     /**
      * Formats current weather and forecast into a user-friendly string.
      * @param currentWeather the current weather condition
-     * @param forecast the list of Weather objects for the forecast
+     * @param rawForecasts the raw list of forecast strings
      * @return a formatted weather string
      */
-    private String formatWeather(Weather currentWeather, List<Weather> forecast) {
+    private String formatWeather(String currentWeather, List<String> rawForecasts) {
         final StringBuilder formattedWeather = new StringBuilder();
 
         // Format current weather
         formattedWeather.append("Current Weather:\n");
-        formattedWeather.append("- Condition: ").append(currentWeather.getCondition()).append("\n");
-        formattedWeather.append("- Temperature: ").append(currentWeather.getTemperature()).append(" °C\n\n");
+        formattedWeather.append("- ").append(currentWeather).append("\n\n");
 
         // Format forecast
         formattedWeather.append("Forecast for the next 24 hours:\n");
-        for (Weather weather : forecast) {
-            final String time = formatTime(weather.getTimestamp());
-            formattedWeather.append("- ").append(time).append(": ")
-                    .append(weather.getCondition()).append(", ")
-                    .append(weather.getTemperature()).append(" °C\n");
+        for (String rawForecast : rawForecasts) {
+            // Assuming rawForecast is formatted as "timestamp|condition|temperature"
+            final String[] parts = rawForecast.split("\\|");
+            final int expectedPartsLength = 3;
+            if (parts.length == expectedPartsLength) {
+                final String time = formatTime(parts[0]);
+                final String condition = parts[1];
+                final String temperature = parts[2];
+
+                formattedWeather.append("- ").append(time).append(": ")
+                        .append(condition).append(", ")
+                        .append(temperature).append(" degrees C\n");
+            }
         }
 
         return formattedWeather.toString();
@@ -81,7 +83,7 @@ public class WeatherController {
             final SimpleDateFormat outputFormat = new SimpleDateFormat("h:mm a");
             final Date date = inputFormat.parse(rawTime);
             formattedTime = outputFormat.format(date);
-        } 
+        }
         catch (ParseException parseException) {
             parseException.printStackTrace();
             // Return raw time if formatting fails

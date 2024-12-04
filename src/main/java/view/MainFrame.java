@@ -9,16 +9,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
-import backend.service.ChatbotService;
-import frontend.controller.ChatbotController;
-import frontend.view.panels.ChatbotPanel;
+import use_case.chatbot.ChatbotService;
+import interface_adapter.chatbot.ChatbotController;
 import interface_adapter.login.LoginController;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.locationSearch.LocationController;
@@ -28,7 +22,8 @@ import use_case.locationSearch.LocationInteractor;
 import use_case.login.LoginInteractor;
 import use_case.logout.LogoutInteractor;
 import use_case.register.RegisterInteractor;
-import frontend.controller.WeatherController;
+//import frontend.controller.WeatherController;
+import interface_adapter.weathersearch.WeatherController;
 
 /**
  * Main frame for the HikeOn application.

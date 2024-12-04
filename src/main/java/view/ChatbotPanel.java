@@ -1,4 +1,4 @@
-package frontend.view.panels;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
-import frontend.utils.MarkDownUtils;
+import helpers.MarkDownUtils;
 
 /**
  * ChatbotPanel is a JPanel that contains a conversation area, input field, and send button.
